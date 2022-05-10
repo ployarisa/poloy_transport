@@ -6,8 +6,28 @@ class MyConstant {
   static Color dark = Color.fromARGB(255, 42, 49, 54);
   static Color light = Color.fromARGB(255, 127, 203, 216);
 
+  static List<String> typeUsers = [
+    'Owner',
+    'Customer',
+    'Driver',
+  ];
   //method กลุ่มของ field
+
+  BoxDecoration curveBorderBox() => BoxDecoration(
+        border: Border.all(color: MyConstant.dark),
+        borderRadius: BorderRadius.circular(15),
+
+      );
+
   BoxDecoration planBox() => BoxDecoration(color: light.withOpacity(0.5));
+
+  BoxDecoration imageBox() => const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('images/bg.jpg'),
+          fit: BoxFit.cover,
+          opacity: 100,
+        ),
+      );
 
   TextStyle h1style() {
     return TextStyle(

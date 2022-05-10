@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ploy_transport/states/create_account.dart';
 import 'package:ploy_transport/utility/my_constant.dart';
 import 'package:ploy_transport/widgets/show_button.dart';
 import 'package:ploy_transport/widgets/show_form.dart';
@@ -18,7 +19,8 @@ class Authen extends StatelessWidget {
         return GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () => FocusScope.of(context).requestFocus(FocusScopeNode()),
-          child: Container(decoration: MyConstant().planBox(),
+          child: Container(
+            decoration: MyConstant().imageBox(),
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -28,7 +30,7 @@ class Authen extends StatelessWidget {
                   newEmail(),
                   newPassword(),
                   newButton(), //ปุ่ม
-                  newCreateAccount()
+                  newCreateAccount(context: context)
                 ],
               ),
             ),
@@ -38,13 +40,24 @@ class Authen extends StatelessWidget {
     );
   }
 
-  Row newCreateAccount() {
-    return Row(mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const ShowText(label: 'Non Account ?'),
-                    ShowTextButton(label: 'Create Account',pressFuvc: () { },)
-                  ],
-                );
+  Row newCreateAccount({required BuildContext context}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const ShowText(label: 'Non Account ?'),
+        ShowTextButton(
+          label: 'Create Account',
+          pressFuvc: () {
+            //ย้ายหน้า
+            Navigator.push(
+                context,
+                MaterialPageRoute( //back กลับไปหน้า login
+                  builder: (context) => CreateAccount(),
+                ));
+          },
+        )
+      ],
+    );
   }
 
   ShowButton newButton() => ShowButton(
