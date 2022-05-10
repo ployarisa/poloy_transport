@@ -16,7 +16,7 @@ class MyConstant {
   BoxDecoration curveBorderBox() => BoxDecoration(
         border: Border.all(color: MyConstant.dark),
         borderRadius: BorderRadius.circular(15),
-
+        
       );
 
   BoxDecoration planBox() => BoxDecoration(color: light.withOpacity(0.5));

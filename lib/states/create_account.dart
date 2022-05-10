@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:ploy_transport/utility/my_constant.dart';
+import 'package:ploy_transport/utility/my_dialog.dart';
 import 'package:ploy_transport/widgets/show_button.dart';
 import 'package:ploy_transport/widgets/show_form.dart';
 import 'package:ploy_transport/widgets/show_icon_button.dart';
@@ -18,6 +22,8 @@ class CreateAccount extends StatefulWidget {
 class _CreateAccountState extends State<CreateAccount> {
   var typeUsers = MyConstant.typeUsers;
   String? typeUser;
+  //ประกาศตัวแปร Global
+  File? file;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +77,12 @@ class _CreateAccountState extends State<CreateAccount> {
           newCenter(
             widget: ShowButton(
               label: 'Create New Account',
-              pressFunc: () {},
+              pressFunc: () {
+                if (file == null) {
+                  MyDialog(context: context).normalDialog(
+                      title: 'Non avatar ?', subTitle: 'Please take Avatar');
+                }
+              },
             ),
           )
         ],
@@ -85,7 +96,8 @@ class _CreateAccountState extends State<CreateAccount> {
       padding: const EdgeInsets.only(left: 8),
       margin: const EdgeInsets.only(top: 16),
       decoration: MyConstant().curveBorderBox(),
-      width: 250,height: 50,
+      width: 250,
+      height: 50,
       child: DropdownButton<dynamic>(
           hint: const ShowText(label: 'Please Choose TypeUser'),
           value: typeUser,
@@ -112,21 +124,50 @@ class _CreateAccountState extends State<CreateAccount> {
       height: 250,
       child: Stack(
         children: [
-          const ShowImage(
-            path: 'images/avatar.png',
-          ),
+          file == null
+              ? const ShowImage(
+                  path: 'images/avatar.png',
+                )
+              : CircleAvatar(
+                  radius: 200,
+                  backgroundImage: FileImage(file!),
+                ),
           Positioned(
             right: 34,
             bottom: 2,
             child: showIconButton(
               size: 30,
               iconData: Icons.add_a_photo,
-              pressFunc: () {},
+              pressFunc: () {
+                MyDialog(context: context).twoWayDialog(
+                    title: 'Choose Avatar ?',
+                    subTitle: 'Please tap camera or Gallery',
+                    label1: 'Camera',
+                    pressFunc1: () {
+                      Navigator.pop(context);
+                      processTakePhoto(source: ImageSource.camera);
+                    },
+                    label2: 'Gallery',
+                    pressFunc2: () {
+                      Navigator.pop(context);
+                      processTakePhoto(source: ImageSource.gallery);
+                    });
+              },
             ),
           ),
         ],
       ),
     );
+  }
+
+  Future<void> processTakePhoto({required ImageSource source}) async {
+    var result = await ImagePicker()
+        .pickImage(source: source, maxWidth: 800, maxHeight: 800);
+
+    if (result != null) {
+      file = File(result.path);
+      setState(() {});
+    }
   }
 
   Row newCenter({required Widget widget}) {
