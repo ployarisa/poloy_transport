@@ -38,6 +38,7 @@ class _CreateAccountState extends State<CreateAccount> {
         foregroundColor: MyConstant.dark,
         backgroundColor: Colors.white,
       ),
+      
       body: ListView(
         children: [
           newCenter(widget: newAvatar()),
@@ -133,10 +134,10 @@ class _CreateAccountState extends State<CreateAccount> {
                   backgroundImage: FileImage(file!),
                 ),
           Positioned(
-            right: 34,
+            right: 40,
             bottom: 2,
             child: showIconButton(
-              size: 30,
+              size: 40,
               iconData: Icons.add_a_photo,
               pressFunc: () {
                 MyDialog(context: context).twoWayDialog(

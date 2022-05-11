@@ -13,10 +13,11 @@ class MyConstant {
   ];
   //method กลุ่มของ field
 
+  static String pathRegister ='https://www.rollerglobal.com/api/api/Member/register';
+
   BoxDecoration curveBorderBox() => BoxDecoration(
         border: Border.all(color: MyConstant.dark),
         borderRadius: BorderRadius.circular(15),
-        
       );
 
   BoxDecoration planBox() => BoxDecoration(color: light.withOpacity(0.5));

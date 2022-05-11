@@ -32,15 +32,15 @@ class MyDialog {
         actions: [
           ShowTextButton(
             label: label1,
-            pressFuvc: pressFunc1,
+            pressFunc: pressFunc1,
           ),
           ShowTextButton(
             label: label2,
-            pressFuvc: pressFunc2,
+            pressFunc: pressFunc2,
           ),
           ShowTextButton(
             label: 'Cancel',
-            pressFuvc: () {
+            pressFunc: () {
               Navigator.pop(context);
             },
           ),
@@ -49,16 +49,25 @@ class MyDialog {
     );
   }
 
-  Future<void> normalDialog(
-      {required String title, required String subTitle}) async {
+  Future<void> normalDialog({
+    required String title,
+    required String subTitle,
+    Function()? pressFunc,
+    Widget? widget,
+  }) async {
     showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
               title: ShowListTile(
                   title: title, subTitle: subTitle, path: 'images/logo.png'),
-                  actions: [ShowTextButton(label: 'OK', pressFuvc: (){
-                    Navigator.pop(context);
-                  })],
+              actions: [
+                ShowTextButton(
+                    label: 'OK',
+                    pressFunc: pressFunc ?? () {
+                      Navigator.pop(context);
+                    })
+              ],
+              content: widget ?? const SizedBox(),
             ));
   }
 }

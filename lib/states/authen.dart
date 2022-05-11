@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ploy_transport/states/create_account.dart';
+import 'package:ploy_transport/states/register.dart';
 import 'package:ploy_transport/utility/my_constant.dart';
 import 'package:ploy_transport/widgets/show_button.dart';
 import 'package:ploy_transport/widgets/show_form.dart';
@@ -47,12 +48,12 @@ class Authen extends StatelessWidget {
         const ShowText(label: 'Non Account ?'),
         ShowTextButton(
           label: 'Create Account',
-          pressFuvc: () {
+          pressFunc: () {
             //ย้ายหน้า
             Navigator.push(
                 context,
                 MaterialPageRoute( //back กลับไปหน้า login
-                  builder: (context) => CreateAccount(),
+                  builder: (context) => Register(),
                 ));
           },
         )
