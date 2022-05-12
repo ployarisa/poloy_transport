@@ -10,7 +10,7 @@ import 'package:ploy_transport/widgets/showtext.dart';
 
 class ReadApiToken extends StatefulWidget {
   final String token;
-  
+
   const ReadApiToken({
     Key? key,
     required this.token,
@@ -35,7 +35,7 @@ class _ReadApiTokenState extends State<ReadApiToken> {
   Future<void> readProfile() async {
     Dio dio = Dio();
     dio.options.headers['Content-Type'] = 'application/json';
-    dio.options.headers['Authorization'] = 'Barer $token';
+    dio.options.headers['Authorization'] = 'Bearer $token';
 
     Map<String, dynamic> map = {};
     map['id'] = '105';
@@ -59,6 +59,9 @@ class _ReadApiTokenState extends State<ReadApiToken> {
               children: [
                 ShowText(
                     label: 'name : ${profileModel!.responseData!.fullname}'),
+                ShowText(
+                    label:
+                        'name : ${profileModel!.responseData!.membertypename}'),
               ],
             ),
     );
