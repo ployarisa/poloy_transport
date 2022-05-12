@@ -6,6 +6,11 @@ class MyConstant {
   static Color dark = Color.fromARGB(255, 42, 49, 54);
   static Color light = Color.fromARGB(255, 127, 203, 216);
 
+  static String keyRollerId = 'rollerid';
+  static String keyUsername = 'username';
+  static String keyPassword = 'password';
+  static String keyToken = 'token';
+
   static List<String> typeUsers = [
     'Owner',
     'Customer',
@@ -18,6 +23,9 @@ class MyConstant {
 
   static String pathAuthen =
       'https://www.rollerglobal.com/api/api/Member/login';
+
+  static String pathGetProfile =
+      'https://www.rollerglobal.com/api/api/Member/getprofile';
 
   BoxDecoration curveBorderBox() => BoxDecoration(
         border: Border.all(color: MyConstant.dark),

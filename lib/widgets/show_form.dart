@@ -10,7 +10,8 @@ class ShowForm extends StatelessWidget {
   final bool? obsecu;
   final Function(String) changeFunc;
   final TextInputType? textInputType;
-  
+  final TextEditingController? controller;
+
   const ShowForm({
     Key? key,
     required this.label,
@@ -18,6 +19,7 @@ class ShowForm extends StatelessWidget {
     this.obsecu,
     required this.changeFunc,
     this.textInputType,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -26,12 +28,14 @@ class ShowForm extends StatelessWidget {
       margin: EdgeInsets.only(top: 16),
       width: 250,
       height: 50,
-      child: TextFormField(keyboardType: textInputType ?? TextInputType.text,
+      child: TextFormField(
+        controller: controller,
+        keyboardType: textInputType ?? TextInputType.text,
         onChanged: changeFunc,
         obscureText: obsecu ?? false,
         style: MyConstant().h3style(),
         decoration: InputDecoration(
-          fillColor: Color.fromARGB(255, 227, 232, 234).withOpacity(0.7),
+          fillColor: Color.fromARGB(255, 252, 252, 252).withOpacity(0.7),
           filled: true,
           contentPadding:
               const EdgeInsets.symmetric(vertical: 4, horizontal: 8),

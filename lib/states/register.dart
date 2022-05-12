@@ -100,9 +100,10 @@ class _RegisterState extends State<Register> {
                             MyDialog(context: context).normalDialog(
                                 title: 'Phone 10 digi',
                                 subTitle: 'Please fill Phone 10 digi');
-                          // } else if (phoneNumber!.contains('')) {
-                          //   MyDialog(context: context).normalDialog(title: 'มีช่องว่างแทรก', subTitle: 'ห้ามมีช่องว่างแทรก');
-                          // }
+                          } else if (phoneNumber!.contains(' ')) {
+                            MyDialog(context: context).normalDialog(
+                                title: 'มีช่องว่างแทรก',
+                                subTitle: 'ห้ามมีช่องว่างแทรก');
                           } else {
                             processRegister();
                           }

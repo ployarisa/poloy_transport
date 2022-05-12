@@ -29,7 +29,7 @@ class ShowFormPhone extends StatelessWidget {
         obscureText: obsecu ?? false,
         style: MyConstant().h3style(),
         decoration: InputDecoration(
-          fillColor: Color.fromARGB(255, 227, 232, 234).withOpacity(0.7),
+          fillColor: Color.fromARGB(255, 252, 252, 252).withOpacity(0.7),
           filled: true,
           contentPadding:
               const EdgeInsets.symmetric(vertical: 4, horizontal: 8),

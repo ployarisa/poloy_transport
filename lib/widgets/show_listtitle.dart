@@ -9,18 +9,21 @@ class ShowListTile extends StatelessWidget {
   final String title;
   final String subTitle;
   final String path;
+  final double? size;
+  
   const ShowListTile({
     Key? key,
     required this.title,
     required this.subTitle,
     required this.path,
+    this.size,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: SizedBox(
-        width: 80,
+        width: size?? 80,
         child: ShowImage(path: path),
       ),
       title: ShowText(

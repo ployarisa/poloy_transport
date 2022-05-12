@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:ploy_transport/models/authen.dart';
+import 'package:ploy_transport/models/authen_model.dart';
+import 'package:ploy_transport/models/response_false_model.dart';
+import 'package:ploy_transport/models/success_authen_model.dart';
 import 'package:ploy_transport/states/create_account.dart';
 import 'package:ploy_transport/states/register.dart';
 import 'package:ploy_transport/utility/my_constant.dart';
@@ -11,6 +13,7 @@ import 'package:ploy_transport/widgets/show_form.dart';
 import 'package:ploy_transport/widgets/show_image.dart';
 import 'package:ploy_transport/widgets/show_textbutton.dart';
 import 'package:ploy_transport/widgets/showtext.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Authen extends StatefulWidget {
   const Authen({
@@ -23,6 +26,26 @@ class Authen extends StatefulWidget {
 
 class _AuthenState extends State<Authen> {
   String? rollerId, userName, passWord;
+
+  TextEditingController rollerIdControntroller = TextEditingController();
+  TextEditingController userNameControntroller = TextEditingController();
+  TextEditingController passwordControntroller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    forTestAuthen();
+  }
+
+  void forTestAuthen() {
+    rollerIdControntroller.text = '6510000038';
+    userNameControntroller.text = '5453423242';
+    passwordControntroller.text = '249192';
+
+    rollerId = rollerIdControntroller.text;
+    userName = userNameControntroller.text;
+    passWord = passwordControntroller.text;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +79,7 @@ class _AuthenState extends State<Authen> {
   }
 
   ShowForm newRollerId() => ShowForm(
+      controller: rollerIdControntroller,
       textInputType: TextInputType.number,
       label: 'RollerID ',
       iconData: Icons.account_box,
@@ -100,6 +124,7 @@ class _AuthenState extends State<Authen> {
 
   ShowForm newPassword() {
     return ShowForm(
+      controller: passwordControntroller,
       label: 'Password',
       iconData: Icons.lock,
       obsecu: true,
@@ -111,9 +136,10 @@ class _AuthenState extends State<Authen> {
 
   ShowForm newUser() {
     return ShowForm(
+      controller: userNameControntroller,
       textInputType: TextInputType.text,
       label: 'Username',
-      iconData: Icons.email,
+      iconData: Icons.person,
       changeFunc: (String string) {
         userName = string.trim();
       },
@@ -140,10 +166,38 @@ class _AuthenState extends State<Authen> {
     await Dio()
         .post(MyConstant.pathAuthen, data: authenModel.toMap())
         .then((value) {
-           print('OnError Authen ==> $value');
-        })
-        .catchError((onError) {
-           print('OnError Authen ==> ${onError.toString()}');
-        });
+      print('OnError Authen ==> $value');
+
+      ResponseFalseModel responseFalseModel =
+          ResponseFalseModel.fromMap(value.data);
+
+      print('ResponseStatus ==> ${responseFalseModel.ResponseStatus}');
+
+      if (responseFalseModel.ResponseStatus == 'Failed') {
+        MyDialog(context: context).normalDialog(
+            title: 'Login False',
+            subTitle: responseFalseModel.ResponseMessages);
+      } else {
+        SuccessAuthenModel successAuthenModel =
+            SuccessAuthenModel.fromJson(value.data);
+        processSaveUser(successAuthenModel: successAuthenModel);
+      }
+    }).catchError((onError) {
+      print('OnError Authen ==> ${onError.toString()}');
+    });
+  }
+
+  Future<void> processSaveUser(
+      {required SuccessAuthenModel successAuthenModel}) async {
+    String token = successAuthenModel.responseData![0].token.toString();
+    print('token ===> $token');
+
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString(MyConstant.keyRollerId, rollerId!);
+    preferences.setString(MyConstant.keyUsername, userName!);
+    preferences.setString(MyConstant.keyPassword, passWord!);
+    preferences.setString(MyConstant.keyToken, token);
+
+    Navigator.pushNamedAndRemoveUntil(context, '/myService', (route) => false);
   }
 }

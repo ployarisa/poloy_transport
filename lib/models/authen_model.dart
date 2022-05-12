@@ -29,5 +29,6 @@ class AuthenModel {
 
   String toJson() => json.encode(toMap());
 
-  factory AuthenModel.fromJson(String source) => AuthenModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory AuthenModel.fromJson(String source) =>
+      AuthenModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }
